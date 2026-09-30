@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.codepath.nationalparks.R.id
 
 /**
@@ -26,10 +28,10 @@ class NationalParksRecyclerViewAdapter(
     // ViewHolder class holds references to all UI elements inside the list item layout
     inner class ParkViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         var mItem: NationalPark? = null
-
-        // TODO: Step 4a - Add references for remaining views from XML
-        val mParkName: TextView = mView.findViewById(id.park_name) as TextView
-        val mParkDescription: TextView = mView.findViewById(id.park_description) as TextView
+        val mParkName: TextView = mView.findViewById(R.id.park_name)
+        val mParkLocation: TextView = mView.findViewById(R.id.park_location)
+        val mParkDescription: TextView = mView.findViewById(R.id.park_description)
+        val mParkImage: ImageView = mView.findViewById(R.id.park_image)
 
         override fun toString(): String {
             return mParkName.toString() + " '" + mParkDescription.text + "'"
@@ -42,10 +44,15 @@ class NationalParksRecyclerViewAdapter(
         // TODO: Step 4b - Bind the park data to the views
         holder.mItem = park
         holder.mParkName.text = park.name
+        holder.mParkLocation.text = park.location
         holder.mParkDescription.text = park.description
 
-        // TODO: Step 4c - Use Glide to load the first image
 
+        // TODO: Step 4c - Use Glide to load the first image
+        Glide.with(holder.mView)
+            .load(park.imageUrl)
+            .centerCrop()
+            .into(holder.mParkImage)
 
         // Sets up click listener for this park item
         holder.mView.setOnClickListener {
